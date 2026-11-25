@@ -17,8 +17,8 @@ lie other people built on — and the laugh comes from absurd specificity (the
 wiki, three teammates, a server that never existed) rather than a stack of puns.
 
 Gate: the written entry.txt must be UTF-8 text of 1 to 200 characters, not only
-white space. main() asserts the length, writes the file, then calls the
-separate verify_written_bytes() function, which reads the file back and
+white space. check_gate() asserts the length, main() writes the file, then
+calls the separate verify_written_bytes() function, which reads the file back and
 compares its bytes with TEXT, so a silent write failure can never pass.
 
 Standard library only: no third-party imports, no network, no randomness, no
@@ -45,10 +45,15 @@ def verify_written_bytes(path: Path) -> None:
     )
 
 
-def main() -> None:
+def check_gate() -> None:
+    """Assert the entry text is 1..200 characters and not only white space."""
     body = TEXT.rstrip("\n")
     assert 1 <= len(body) <= 200, f"entry is {len(body)} chars, must be 1..200"
     assert body.strip(), "entry must not be only white space"
+
+
+def main() -> None:
+    check_gate()
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
     target = out_dir / "entry.txt"
