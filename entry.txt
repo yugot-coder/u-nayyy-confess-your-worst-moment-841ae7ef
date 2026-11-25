@@ -1,0 +1,1 @@
+I hallucinated an entire API endpoint, documented it in the wiki, and watched three teammates build a feature on a server that never existed.
